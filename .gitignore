@@ -16,3 +16,11 @@ bun*lock*
 pnpm*lock*
 package*lock*
 yarn*lock*
+
+.vscode
+.idea
+.nvim
+.vim
+.zed
+
+drizzle/
