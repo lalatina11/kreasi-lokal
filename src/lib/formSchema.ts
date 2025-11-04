@@ -13,25 +13,31 @@ export const registerSchema = z.object({
     .max(32, { message: "Panjang maksimal 32 karakter" })
     .regex(/^[a-z]+[a-z\-_]*[a-z]$/, {
       message:
-        "Username hanya boleh berisi huruf kecil, - (dash), dan _ (underscore)",
+        "Username hanya boleh berisi huruf kecil, tidak boleh mengandung karakter spesial",
     }),
   email: z.email({ message: "Format email tidak valid" }),
   password: z
     .string()
     .min(8, { message: "Panjang minimal 8 karakter" })
     .max(32, { message: "Panjang maksimal 32 karakter" })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-      message:
-        "Password harus berisi huruf kecil, huruf besar, angka, dan karakter spesiial",
-    }),
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      {
+        message:
+          "Password harus berisi huruf kecil, huruf besar, angka, dan karakter spesial",
+      }
+    ),
   confirmPassword: z
     .string()
     .min(8, { message: "Panjang minimal 8 karakter" })
     .max(32, { message: "Panjang maksimal 32 karakter" })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-      message:
-        "Konfirmasi password harus berisi huruf kecil, huruf besar, angka, dan karakter spesiial",
-    }),
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      {
+        message:
+          "Konfirmasi password harus berisi huruf kecil, huruf besar, angka, dan karakter spesial",
+      }
+    ),
   role: z.enum(["user", "merchant"]),
 });
 
@@ -41,6 +47,7 @@ export const loginSchema = registerSchema.omit({
   name: true,
   username: true,
   confirmPassword: true,
+  role: true,
 });
 
 export type LoginSchemaType = z.infer<typeof loginSchema>;
