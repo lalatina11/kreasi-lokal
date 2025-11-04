@@ -4,6 +4,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import ToastProvider from "@/components/providers/ToasterProvider";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -44,6 +45,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           {children}
+          <ToastProvider />
         </ThemeProvider>
         {/* <TanStackDevtools
           config={{
