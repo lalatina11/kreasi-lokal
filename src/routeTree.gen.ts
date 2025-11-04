@@ -9,10 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as FeedsRouteImport } from './routes/feeds'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardMerchantIndexRouteImport } from './routes/dashboard/merchant/index'
+import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const FeedsRoute = FeedsRouteImport.update({
+  id: '/feeds',
+  path: '/feeds',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -21,6 +29,16 @@ const AuthRoute = AuthRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardMerchantIndexRoute = DashboardMerchantIndexRouteImport.update({
+  id: '/dashboard/merchant/',
+  path: '/dashboard/merchant/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
+  id: '/dashboard/admin/',
+  path: '/dashboard/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -32,35 +50,73 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/feeds': typeof FeedsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/admin': typeof DashboardAdminIndexRoute
+  '/dashboard/merchant': typeof DashboardMerchantIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/feeds': typeof FeedsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/admin': typeof DashboardAdminIndexRoute
+  '/dashboard/merchant': typeof DashboardMerchantIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/feeds': typeof FeedsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/merchant/': typeof DashboardMerchantIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/feeds'
+    | '/api/auth/$'
+    | '/dashboard/admin'
+    | '/dashboard/merchant'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/api/auth/$'
-  id: '__root__' | '/' | '/auth' | '/api/auth/$'
+  to:
+    | '/'
+    | '/auth'
+    | '/feeds'
+    | '/api/auth/$'
+    | '/dashboard/admin'
+    | '/dashboard/merchant'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/feeds'
+    | '/api/auth/$'
+    | '/dashboard/admin/'
+    | '/dashboard/merchant/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  FeedsRoute: typeof FeedsRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
+  DashboardMerchantIndexRoute: typeof DashboardMerchantIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/feeds': {
+      id: '/feeds'
+      path: '/feeds'
+      fullPath: '/feeds'
+      preLoaderRoute: typeof FeedsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -73,6 +129,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/merchant/': {
+      id: '/dashboard/merchant/'
+      path: '/dashboard/merchant'
+      fullPath: '/dashboard/merchant'
+      preLoaderRoute: typeof DashboardMerchantIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/admin/': {
+      id: '/dashboard/admin/'
+      path: '/dashboard/admin'
+      fullPath: '/dashboard/admin'
+      preLoaderRoute: typeof DashboardAdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -88,7 +158,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  FeedsRoute: FeedsRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
+  DashboardMerchantIndexRoute: DashboardMerchantIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
