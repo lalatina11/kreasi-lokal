@@ -35,15 +35,26 @@ const RegisterForm = () => {
       if ((values.role as RoleWithAdmin) === "admin") {
         throw new Error("Anda tidak diperkenankan membuat akun admin disini");
       }
-      await authClient.signUp.email(values, {
-        onSuccess: () => {
-          toast.success(
-            `Berhasil mendaftar sebagai ${values.role === "user" ? "Pelanggan UMKM" : "Pelaku UMKM"}`
-          );
-          router.navigate({ to: "/" });
-        },
+      const { data } = await authClient.signUp.email(values, {
         onError: ({ error }) => {
           throw new Error(error.message);
+        },
+      });
+      await authClient.getSession({
+        fetchOptions: {
+          headers: { authorization: `Bearer ${data?.token}` },
+          onSuccess: ({ data }) => {
+            const { role } = data.user;
+            toast.success(`Berhasil mendaftar sebagai ${role}`);
+            router.navigate({
+              to:
+                role === "user"
+                  ? "/feeds"
+                  : role === "merchant"
+                    ? "/dashboard/merchant"
+                    : "/dashboard/admin",
+            });
+          },
         },
       });
     } catch (error) {
