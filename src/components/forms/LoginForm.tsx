@@ -6,8 +6,11 @@ import { Button } from "../ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Spinner } from "../ui/spinner";
+import { authClient } from "@/lib/authClient";
+import { useRouter } from "@tanstack/react-router";
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -16,9 +19,25 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (values: LoginSchemaType) => {
+  const onSubmit = async (values: LoginSchemaType) => {
     try {
-      console.log(values);
+      const { data } = await authClient.signIn.email(values, {
+        onError: ({ error }) => {
+          throw new Error(error.message);
+        },
+      });
+      await authClient.getSession({
+        fetchOptions: {
+          headers: { authorization: `Bearer ${data?.token}` },
+          onSuccess: ({ data }) => {
+            const { role } = data.user;
+            toast.success(`Berhasil mendaftar sebagai ${role}`);
+            router.navigate({
+              to: role === "user" ? "/feeds" : "/dashboard/merchant",
+            });
+          },
+        },
+      });
     } catch (error) {
       const { message } = error as Error;
       form.setError("root", { message });
@@ -33,6 +52,9 @@ const LoginForm = () => {
       onSubmit={form.handleSubmit(onSubmit)}
       className="flex flex-col gap-4"
     >
+      {form.formState.errors.root?.message && (
+        <FieldError errors={[form.formState.errors.root]} />
+      )}
       <FieldGroup>
         <Controller
           name="email"
