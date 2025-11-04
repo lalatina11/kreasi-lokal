@@ -18,10 +18,11 @@ const registerSeeder = createServerFn({ method: "POST" })
   .inputValidator(registerSeederSchema)
   .handler(async ({ data }) => {
     const role = numberToRole(data.index);
+    const password = process.env.USER_SEEDER_PASSWORD as string;
     await auth.api.signUpEmail({
       body: {
         email: `${role}@${role}.com`,
-        password: `${role}12345`,
+        password,
         name: faker.person.fullName(),
         username: faker.person.firstName(),
         role,
