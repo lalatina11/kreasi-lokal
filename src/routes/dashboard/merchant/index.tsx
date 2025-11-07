@@ -1,9 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/dashboard/merchant/')({
+export const Route = createFileRoute("/dashboard/merchant/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/dashboard/merchant/"!</div>
+  const router = useRouter();
+  return () => router.navigate({ to: "/" });
 }
