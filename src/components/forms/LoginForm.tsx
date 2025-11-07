@@ -8,8 +8,16 @@ import { Input } from "../ui/input";
 import { Spinner } from "../ui/spinner";
 import { authClient } from "@/lib/authClient";
 import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  InputGroup,
+  InputGroupButton,
+  InputGroupInput,
+} from "../ui/input-group";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -31,7 +39,7 @@ const LoginForm = () => {
           headers: { authorization: `Bearer ${data?.token}` },
           onSuccess: ({ data }) => {
             const { role } = data.user;
-            toast.success(`Berhasil mendaftar sebagai ${role}`);
+            toast.success(`Berhasil Login sebagai ${role}`);
             router.navigate({
               to:
                 role === "user" || role === "merchant"
@@ -84,13 +92,21 @@ const LoginForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                {...field}
-                id="password"
-                aria-invalid={fieldState.invalid}
-                placeholder="*********"
-                autoComplete="off"
-              />
+              <InputGroup>
+                <InputGroupInput
+                  {...field}
+                  id="password"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="*********"
+                  autoComplete="off"
+                  type={isShowPassword ? "text" : "password"}
+                />
+                <InputGroupButton
+                  onClick={() => setIsShowPassword((prev) => !prev)}
+                >
+                  {isShowPassword ? <EyeOff /> : <Eye />}
+                </InputGroupButton>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
