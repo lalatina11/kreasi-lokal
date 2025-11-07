@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth";
 import { faker } from "@faker-js/faker";
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest, getRequestHeaders } from "@tanstack/react-start/server";
 import { eq, or } from "drizzle-orm";
 import z from "zod";
 import db from "..";
