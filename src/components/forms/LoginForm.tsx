@@ -33,7 +33,10 @@ const LoginForm = () => {
             const { role } = data.user;
             toast.success(`Berhasil mendaftar sebagai ${role}`);
             router.navigate({
-              to: role === "user" ? "/feeds" : "/dashboard/merchant",
+              to:
+                role === "user" || role === "merchant"
+                  ? "/feeds"
+                  : "/dashboard/admin",
             });
           },
         },
