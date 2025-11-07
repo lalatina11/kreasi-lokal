@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as FeedsRouteImport } from './routes/feeds'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardMerchantIndexRouteImport } from './routes/dashboard/merchant/index'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
 import { Route as DashboardMerchantKatalogRouteImport } from './routes/dashboard/merchant/katalog'
@@ -30,6 +31,11 @@ const AuthRoute = AuthRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardMerchantIndexRoute = DashboardMerchantIndexRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/dashboard'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/dashboard'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/dashboard/'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin/'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   FeedsRoute: typeof FeedsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
   DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
@@ -143,6 +156,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/merchant/': {
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   FeedsRoute: FeedsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
   DashboardAdminIndexRoute: DashboardAdminIndexRoute,
