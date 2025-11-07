@@ -1,10 +1,12 @@
 import { auth } from "@/lib/auth";
-import { createServerFn } from "@tanstack/react-start";
-import z from "zod";
 import { faker } from "@faker-js/faker";
+import { createServerFn } from "@tanstack/react-start";
+import { getRequest, getRequestHeaders } from "@tanstack/react-start/server";
+import { eq, or } from "drizzle-orm";
+import z from "zod";
 import db from "..";
 import { user } from "../schema";
-import { eq, or } from "drizzle-orm";
+import { tables } from "../tables";
 
 const registerSeederSchema = z.object({
   index: z.number().min(1).max(3),
@@ -28,6 +30,7 @@ const registerSeeder = createServerFn({ method: "POST" })
         role,
       },
     });
+    await db.delete(tables.session);
   });
 
 const userSeeder = async () => {
