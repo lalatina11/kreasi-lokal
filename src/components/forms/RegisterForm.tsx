@@ -7,10 +7,20 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
 import { authClient } from "@/lib/authClient";
-import { Check } from "lucide-react";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  InputGroup,
+  InputGroupButton,
+  InputGroupInput,
+} from "../ui/input-group";
 
 const RegisterForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState({
+    password: false,
+    confirmPassword: false,
+  });
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -48,11 +58,9 @@ const RegisterForm = () => {
             toast.success(`Berhasil mendaftar sebagai ${role}`);
             router.navigate({
               to:
-                role === "user"
+                role === "user" || role === "merchant"
                   ? "/feeds"
-                  : role === "merchant"
-                    ? "/dashboard/merchant"
-                    : "/dashboard/admin",
+                  : "/dashboard/admin",
             });
           },
         },
@@ -140,13 +148,26 @@ const RegisterForm = () => {
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                {...field}
-                id="password"
-                aria-invalid={fieldState.invalid}
-                placeholder="*********"
-                autoComplete="off"
-              />
+              <InputGroup>
+                <InputGroupInput
+                  {...field}
+                  id="password"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="*********"
+                  autoComplete="off"
+                  type={isShowPassword.password ? "text" : "password"}
+                />
+                <InputGroupButton
+                  onClick={() =>
+                    setIsShowPassword((prev) => ({
+                      ...prev,
+                      password: !prev.password,
+                    }))
+                  }
+                >
+                  {isShowPassword.password ? <EyeOff /> : <Eye />}
+                </InputGroupButton>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -161,13 +182,27 @@ const RegisterForm = () => {
               <FieldLabel htmlFor="confirmPassword">
                 Konfirmasi Password
               </FieldLabel>
-              <Input
-                {...field}
-                id="confirmPassword"
-                aria-invalid={fieldState.invalid}
-                placeholder="*********"
-                autoComplete="off"
-              />
+              <InputGroup>
+                <InputGroupInput
+                  {...field}
+                  id="confirmPassword"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="*********"
+                  autoComplete="off"
+                  type={isShowPassword.confirmPassword ? "text" : "password"}
+                />
+                <InputGroupButton
+                  onClick={() =>
+                    setIsShowPassword((prev) => ({
+                      ...prev,
+                      confirmPassword: !prev.confirmPassword,
+                    }))
+                  }
+                >
+                  {isShowPassword.confirmPassword ? <EyeOff /> : <Eye />}
+                </InputGroupButton>
+              </InputGroup>
+
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -184,7 +219,7 @@ const RegisterForm = () => {
                 <Button
                   type="button"
                   onClick={() => form.setValue("role", "user")}
-                  className="flex-1/2"
+                  className="flex-1/2 transition-all ease-in-out duration-300"
                   variant={isUser ? "default" : "outline"}
                 >
                   {isUser && <Check />}
@@ -193,7 +228,7 @@ const RegisterForm = () => {
                 <Button
                   type="button"
                   onClick={() => form.setValue("role", "merchant")}
-                  className="flex-1/2"
+                  className="flex-1/2 transition-all ease-in-out duration-300"
                   variant={!isUser ? "default" : "outline"}
                 >
                   {!isUser && <Check />}
