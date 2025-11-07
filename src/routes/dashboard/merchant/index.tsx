@@ -1,10 +1,14 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard/merchant/")({
   component: RouteComponent,
+  ssr: true,
+  beforeLoad: () => {
+    throw redirect({ to: "/dashboard/merchant/katalog" });
+  },
+  loader: () => {},
 });
 
 function RouteComponent() {
-  const router = useRouter();
-  return () => router.navigate({ to: "/" });
+  return <>Merchant Dashboard</>;
 }
