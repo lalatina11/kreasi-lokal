@@ -5,6 +5,7 @@ import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ToastProvider from "@/components/providers/ToasterProvider";
+import { authMiddlewareAsResponse } from "@/server/middlewares/authMiddleware";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,7 +28,10 @@ export const Route = createRootRoute({
       },
     ],
   }),
-
+  ssr: true,
+  server: {
+    middleware: [authMiddlewareAsResponse],
+  },
   shellComponent: RootDocument,
 });
 
