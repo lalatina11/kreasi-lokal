@@ -51,3 +51,15 @@ export const loginSchema = registerSchema.omit({
 });
 
 export type LoginSchemaType = z.infer<typeof loginSchema>;
+
+export const createFeedSchema = z.object({
+  text: z.string().optional().default(""),
+  image: z
+    .file()
+    .refine((file) => file.size <= 4000000, "Ukuran gambar maksimum adalah 4MB")
+    .refine((file) => file.type !== "image/*", "Hanya bisa input image")
+    .optional(),
+  productId: z.string().optional().default(""),
+});
+
+export type CreateSchemaType = z.infer<typeof createFeedSchema>;
