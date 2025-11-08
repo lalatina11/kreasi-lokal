@@ -6,8 +6,14 @@ import { tables } from "@/db/tables";
 import { eq } from "drizzle-orm";
 
 export const createFeedAction = createServerFn({ method: "POST" })
-  .inputValidator(createFeedSchema)
+  .inputValidator((formData: FormData) => formData)
   .handler(async ({ data }) => {
+    const validatedFields = createFeedSchema.safeParse(
+      Object.fromEntries(data.entries())
+    );
+    if (!validatedFields.success) {
+      throw new Error("Terjadi Kesalahan Silahkan coba lagi beberapa saat");
+    }
     const session = await getUserSessionByServer();
     if (!session) {
       throw new Error("Anda harus login terlebih dahulu");
@@ -15,7 +21,9 @@ export const createFeedAction = createServerFn({ method: "POST" })
     if (session.user.role !== "merchant") {
       throw new Error("Hanya pedagang UMKM yang bisa membuat postingan");
     }
-    const { productId, image, text } = data;
+    const { productId, image, text } = validatedFields.data;
+
+    console.log(image);
 
     if (!image && !text) {
       throw new Error("Setidaknya isi text atau tambahkan gambar");
