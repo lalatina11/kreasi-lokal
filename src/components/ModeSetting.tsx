@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
 
@@ -10,14 +10,21 @@ const ModeSetting = () => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
   if (!isMounted)
     return Array.from({ length: 3 }).map((_, i) => (
-      <Skeleton key={i}>
-        <Button disabled className="w-full">
+      <div key={i}>
+        <Skeleton
+          className={
+            "w-full flex justify-center items-center" +
+            buttonVariants({ variant: "default" })
+          }
+        >
           Loading...
-        </Button>
-      </Skeleton>
+        </Skeleton>
+      </div>
     ));
+
   return allModes.map((mode) => (
     <Button
       key={mode}
