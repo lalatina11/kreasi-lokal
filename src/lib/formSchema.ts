@@ -56,8 +56,14 @@ export const createFeedSchema = z.object({
   text: z.string().optional().default(""),
   image: z
     .file()
-    .refine((file) => file.size <= 4000000, "Ukuran gambar maksimum adalah 4MB")
-    .refine((file) => file.type !== "image/*", "Hanya bisa input image")
+    .refine(
+      (file) => file?.size <= 40000000,
+      "Ukuran gambar maksimum adalah 4MB"
+    )
+    .refine(
+      (files) => files.type.startsWith("image/"),
+      "Hanya bisa input image"
+    )
     .optional(),
   productId: z.string().optional().default(""),
 });
