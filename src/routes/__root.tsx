@@ -6,6 +6,7 @@ import appCss from "../styles.css?url";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ToastProvider from "@/components/providers/ToasterProvider";
 import { authMiddlewareAsResponse } from "@/server/middlewares/authMiddleware";
+import QueryClientProvider from "@/components/providers/QueryClientProvider";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -42,15 +43,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <ToastProvider />
-        </ThemeProvider>
+        <QueryClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <ToastProvider />
+          </ThemeProvider>
+        </QueryClientProvider>
         {/* <TanStackDevtools
           config={{
             position: "bottom-right",
