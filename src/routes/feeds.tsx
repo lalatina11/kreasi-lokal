@@ -63,6 +63,7 @@ function RouteComponent() {
   const handleClearSelectedProduct = () => {
     form.setValue("productId", "");
     setProducts(allProducts);
+    setForFilterProducts(allProducts);
   };
 
   const form = useForm({
@@ -83,7 +84,7 @@ function RouteComponent() {
   const handleSearchProducts = (val: string) => {
     if (val) {
       setForFilterProducts((prev) =>
-        prev.filter((product) => product.name.includes(val) ?? product)
+        prev.filter((product) => product.name.includes(val))
       );
     } else {
       setForFilterProducts(allProducts);
@@ -99,6 +100,7 @@ function RouteComponent() {
     try {
       await createFeedAction({ data: values });
       form.reset();
+      setProducts(allProducts);
       toast.success("Berhasil membuat feed!", {
         action: {
           label: "OK",
@@ -124,8 +126,6 @@ function RouteComponent() {
     : "";
 
   const isFormBusy = form.formState.isLoading || form.formState.isSubmitting;
-
-  console.log(feeds);
 
   return (
     <main className="flex flex-col gap-7 py-4">
@@ -275,7 +275,7 @@ function RouteComponent() {
                         </span>
                       )}
                       {selectedProductId && (
-                        <div className="flex gap-2 w-full">
+                        <div className="flex gap-2 w-full bg-accent p-2 rounded-md">
                           <Label className="truncate flex-1 px-1">
                             {filteredProduct[0].name}
                           </Label>
@@ -318,16 +318,20 @@ function RouteComponent() {
                   <span>{feed.text}</span>
                 </CardContent>
                 {feed.product && (
-                  <CardFooter className="flex flex-col gap-1 justify-normal items-start">
-                    <span>Product yang ditautkan</span>
-                    <div className="bg-accent w-full p-2 rounded-md flex gap-2 justify-between items-center">
-                      <Avatar>
-                        <AvatarImage src={""} />
-                        <AvatarFallback>-</AvatarFallback>
-                      </Avatar>
-                      <span>{feed.product.name}</span>
-                    </div>
-                  </CardFooter>
+                  <a href={"/product/" + feed.product.id}>
+                    <CardFooter className="flex flex-col gap-1 justify-normal items-start">
+                      <span className="text-sm text-muted-foreground">
+                        Produk yang ditautkan
+                      </span>
+                      <div className="bg-accent w-full p-2 rounded-md flex gap-2 items-center truncate">
+                        <Avatar>
+                          <AvatarImage src={""} />
+                          <AvatarFallback>-</AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm">{feed.product.name}</span>
+                      </div>
+                    </CardFooter>
+                  </a>
                 )}
               </Card>
             ))}
@@ -338,7 +342,7 @@ function RouteComponent() {
           </span>
         )}
         {feeds.length && (
-          <span className="flex justify-center items-center text-muted-foreground text-sm">
+          <span className="flex justify-center items-center text-muted-foreground text-sm mt-5">
             Semua feeds sudah dimuat
           </span>
         )}
