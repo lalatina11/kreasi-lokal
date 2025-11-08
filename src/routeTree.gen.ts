@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingRouteImport } from './routes/setting'
 import { Route as FeedsRouteImport } from './routes/feeds'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
@@ -18,6 +19,11 @@ import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admi
 import { Route as DashboardMerchantKatalogRouteImport } from './routes/dashboard/merchant/katalog'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const SettingRoute = SettingRouteImport.update({
+  id: '/setting',
+  path: '/setting',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedsRoute = FeedsRouteImport.update({
   id: '/feeds',
   path: '/feeds',
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/setting': typeof SettingRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/setting': typeof SettingRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
+  '/setting': typeof SettingRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/setting'
     | '/dashboard'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/setting'
     | '/dashboard'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/feeds'
+    | '/setting'
     | '/dashboard/'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   FeedsRoute: typeof FeedsRoute
+  SettingRoute: typeof SettingRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
@@ -137,6 +150,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/setting': {
+      id: '/setting'
+      path: '/setting'
+      fullPath: '/setting'
+      preLoaderRoute: typeof SettingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feeds': {
       id: '/feeds'
       path: '/feeds'
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   FeedsRoute: FeedsRoute,
+  SettingRoute: SettingRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
