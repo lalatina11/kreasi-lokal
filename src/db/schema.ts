@@ -103,3 +103,28 @@ export const category = pgTable("categories", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+export const feed = pgTable("feed", {
+  id: text("id").primaryKey(),
+  text: text(),
+  image: text(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
+
+export const productOnFeed = pgTable("product_on_feed", {
+  id: text("id").primaryKey(),
+  productId: text().references(() => product.id, { onDelete: "cascade" }),
+  feedId: text().references(() => feed.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
+});
