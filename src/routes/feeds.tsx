@@ -98,7 +98,11 @@ function RouteComponent() {
       });
     }
     try {
-      await createFeedAction({ data: values });
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      await createFeedAction({ data: formData });
       form.reset();
       setProducts(allProducts);
       toast.success("Berhasil membuat feed!", {
