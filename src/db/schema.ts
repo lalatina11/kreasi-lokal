@@ -80,6 +80,7 @@ export const product = pgTable("products", {
   type: text("type", {
     enum: ["goods", "services", "good_and_services"],
   }).notNull(),
+  image: text(),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
