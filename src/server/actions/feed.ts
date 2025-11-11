@@ -11,8 +11,10 @@ export const createFeedAction = createServerFn({ method: "POST" })
     const validatedFields = createFeedSchema.safeParse(
       Object.fromEntries(data.entries())
     );
+
     if (!validatedFields.success) {
-      throw new Error("Terjadi Kesalahan Silahkan coba lagi beberapa saat");
+      console.log(validatedFields.error);
+      throw new Error("Sepertinya ada fields yang tidak tepat");
     }
     const session = await getUserSessionByServer();
     if (!session) {
