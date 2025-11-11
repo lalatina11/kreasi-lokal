@@ -55,7 +55,7 @@ export type LoginSchemaType = z.infer<typeof loginSchema>;
 export const createFeedSchema = z.object({
   text: z.string().optional().default(""),
   image: z
-    .file()
+    .file("Hanya bisa menerima file image")
     .refine(
       (file) => file?.size <= 40000000,
       "Ukuran gambar maksimum adalah 4MB"
@@ -68,4 +68,4 @@ export const createFeedSchema = z.object({
   productId: z.string().optional().default(""),
 });
 
-export type CreateSchemaType = z.infer<typeof createFeedSchema>;
+export type CreateFeedSchemaType = z.infer<typeof createFeedSchema>;
