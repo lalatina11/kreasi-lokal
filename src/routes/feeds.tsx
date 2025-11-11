@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { createFeedSchema, CreateSchemaType } from "@/lib/formSchema";
+import { createFeedSchema, CreateFeedSchemaType } from "@/lib/formSchema";
 import { createFeedAction } from "@/server/actions/feed";
 import { getUserSessionByServer } from "@/server/renders/auth";
 import { getAllFeeds } from "@/server/renders/feed";
@@ -91,17 +91,21 @@ function RouteComponent() {
     }
   };
 
-  const onSubmit = async (values: CreateSchemaType) => {
+  const onSubmit = async (values: CreateFeedSchemaType) => {
     if (!values.image && !values.text) {
       return form.setError("root", {
         message: "Isi setidaknya gambar atau deskripsi!",
       });
     }
+
     try {
       const formData = new FormData();
       Object.entries(values).forEach(([key, value]) => {
         formData.append(key, value);
       });
+      if (!values.image) {
+        formData.delete("image");
+      }
       await createFeedAction({ data: formData });
       form.reset();
       setProducts(allProducts);
@@ -318,7 +322,9 @@ function RouteComponent() {
                   <span>{feed.user?.name}</span>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-3">
-                  <img src={feed.product?.image as string} />
+                  {feed.product?.image && (
+                    <img src={feed.product?.image as string} />
+                  )}
                   <span>{feed.text}</span>
                 </CardContent>
                 {feed.product && (
