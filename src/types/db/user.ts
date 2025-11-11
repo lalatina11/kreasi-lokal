@@ -1,3 +1,3 @@
-import { user } from "@/db/schema";
+import { tables } from "@/db/tables";
 
-export type User = typeof user.$inferSelect;
+export type User = typeof tables.user.$inferSelect;

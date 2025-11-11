@@ -1,3 +1,3 @@
-import { category } from "@/db/schema";
+import { tables } from "@/db/tables";
 
-export type Category = typeof category.$inferSelect;
+export type Category = typeof tables.category.$inferSelect;
