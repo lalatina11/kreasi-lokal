@@ -120,8 +120,8 @@ export const feed = pgTable("feed", {
 
 export const productOnFeed = pgTable("product_on_feed", {
   id: text("id").primaryKey(),
-  productId: text().references(() => product.id, { onDelete: "cascade" }),
-  feedId: text().references(() => feed.id, { onDelete: "cascade" }),
+  productId: text().references(() => product.id, { onDelete: "cascade" }).notNull(),
+  feedId: text().references(() => feed.id, { onDelete: "cascade" }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
