@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -8,9 +7,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
@@ -27,9 +24,7 @@ export const user = pgTable("user", {
 });
 
 export const session = pgTable("session", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -44,9 +39,7 @@ export const session = pgTable("session", {
 });
 
 export const account = pgTable("account", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
   userId: text("user_id")
@@ -66,9 +59,7 @@ export const account = pgTable("account", {
 });
 
 export const verification = pgTable("verification", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
@@ -80,9 +71,7 @@ export const verification = pgTable("verification", {
 });
 
 export const product = pgTable("products", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   name: varchar("name", { length: 128 }).notNull(),
   shortDescription: varchar("short_description", {
     length: 128,
@@ -107,9 +96,7 @@ export const product = pgTable("products", {
 });
 
 export const category = pgTable("categories", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   name: varchar("name", { length: 32 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -119,9 +106,7 @@ export const category = pgTable("categories", {
 });
 
 export const feed = pgTable("feed", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
+  id: text("id").primaryKey(),
   text: text().default(""),
   image: text().default(""),
   userId: text("user_id")
@@ -135,11 +120,13 @@ export const feed = pgTable("feed", {
 });
 
 export const productOnFeed = pgTable("product_on_feed", {
-  id: text("id")
-    .primaryKey()
-    .default(sql`uuidv7()`),
-  productId: text().references(() => product.id, { onDelete: "cascade" }),
-  feedId: text().references(() => feed.id, { onDelete: "cascade" }),
+  id: text("id").primaryKey(),
+  productId: text()
+    .references(() => product.id, { onDelete: "cascade" })
+    .notNull(),
+  feedId: text()
+    .references(() => feed.id, { onDelete: "cascade" })
+    .notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
