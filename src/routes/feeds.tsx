@@ -31,6 +31,7 @@ import { getAllFeeds } from "@/server/renders/feed";
 import { getAllProductsByIsLoggedInMerchant } from "@/server/renders/products";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { Link } from "@tanstack/react-router";
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { Plus, RefreshCcw, Trash, User } from "lucide-react";
 import { useState } from "react";
@@ -284,8 +285,9 @@ function RouteComponent() {
                       )}
                       {selectedProductId && (
                         <div className="flex gap-2 w-full bg-accent p-2 rounded-md">
-                          <Label className="truncate flex-1 px-1">
-                            {filteredProduct[0].name}
+                          <Label className="truncate flex-1 px-1 max-w-full">
+                            {filteredProduct[0].name.slice(0, 20)}
+                            {filteredProduct[0].name.length > 20 && "..."}
                           </Label>
                           <Button
                             type="button"
@@ -328,7 +330,7 @@ function RouteComponent() {
                   <span>{feed.text}</span>
                 </CardContent>
                 {feed.product && (
-                  <a href={"/product/" + feed.product.id}>
+                  <Link to={"/products" + `/${feed.product.id}`}>
                     <CardFooter className="flex flex-col gap-1 justify-normal items-start">
                       <span className="text-sm text-muted-foreground">
                         Produk yang ditautkan
@@ -338,10 +340,12 @@ function RouteComponent() {
                           <AvatarImage src={""} />
                           <AvatarFallback>-</AvatarFallback>
                         </Avatar>
-                        <span className="text-sm">{feed.product.name}</span>
+                        <span className="text-sm truncate">
+                          {feed.product.name}
+                        </span>
                       </div>
                     </CardFooter>
-                  </a>
+                  </Link>
                 )}
               </Card>
             ))}
