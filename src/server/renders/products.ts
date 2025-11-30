@@ -35,3 +35,20 @@ export const getAllProductsByIsLoggedInMerchant = createServerFn({
       );
     return products;
   });
+
+export const getProductById = createServerFn({ method: "GET" })
+  .inputValidator((id: string) => id)
+  .handler(async ({ data: id }) => {
+    return await db
+      .select()
+      .from(tables.product)
+      .where(eq(tables.product.id, id));
+  });
+
+export const getAllProducts = createServerFn({ method: "GET" }).handler(
+  async () => {
+    return await db.select().from(tables.product);
+  }
+);
+
+export const getNoProductImageLink = () => "https://placehold.co/600x400";
