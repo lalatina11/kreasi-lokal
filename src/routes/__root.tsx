@@ -34,6 +34,7 @@ export const Route = createRootRoute({
     middleware: [authMiddlewareAsResponse],
   },
   shellComponent: RootDocument,
+  notFoundComponent: () => <div>Not Found</div>,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
