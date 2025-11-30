@@ -13,7 +13,9 @@ import { Route as SettingRouteImport } from './routes/setting'
 import { Route as FeedsRouteImport } from './routes/feeds'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as ProductsIdRouteImport } from './routes/products/$id'
 import { Route as DashboardMerchantIndexRouteImport } from './routes/dashboard/merchant/index'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
 import { Route as DashboardMerchantKatalogRouteImport } from './routes/dashboard/merchant/katalog'
@@ -39,9 +41,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/products/',
+  path: '/products/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardMerchantIndexRoute = DashboardMerchantIndexRouteImport.update({
@@ -71,7 +83,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
+  '/products/$id': typeof ProductsIdRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -82,7 +96,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
+  '/products/$id': typeof ProductsIdRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/products': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
@@ -94,7 +110,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
+  '/products/$id': typeof ProductsIdRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
@@ -107,7 +125,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/feeds'
     | '/setting'
+    | '/products/$id'
     | '/dashboard'
+    | '/products'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
@@ -118,7 +138,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/feeds'
     | '/setting'
+    | '/products/$id'
     | '/dashboard'
+    | '/products'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
@@ -129,7 +151,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/feeds'
     | '/setting'
+    | '/products/$id'
     | '/dashboard/'
+    | '/products/'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin/'
@@ -141,7 +165,9 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   FeedsRoute: typeof FeedsRoute
   SettingRoute: typeof SettingRoute
+  ProductsIdRoute: typeof ProductsIdRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
   DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
@@ -178,11 +204,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/': {
+      id: '/products/'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/merchant/': {
@@ -221,7 +261,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   FeedsRoute: FeedsRoute,
   SettingRoute: SettingRoute,
+  ProductsIdRoute: ProductsIdRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
   DashboardAdminIndexRoute: DashboardAdminIndexRoute,
