@@ -1,5 +1,6 @@
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "@/components/forms/RegisterForm";
+import { ModeToggle } from "@/components/ModeToggle";
 import {
   Card,
   CardContent,
@@ -26,11 +27,14 @@ function RouteComponent() {
   return (
     <main className="flex justify-center items-center min-h-screen py-10">
       <Card className="w-sm lg:w-md mx-auto">
-        <CardHeader>
-          <CardTitle>{isLoginPage ? "Login" : "Daftar"}</CardTitle>
-          <CardDescription>
-            {isLoginPage ? "Login ke akun anda" : "Daftarkan akun anda"}
-          </CardDescription>
+        <CardHeader className="flex flex-row justify-between items-center">
+          <div>
+            <CardTitle>{isLoginPage ? "Login" : "Daftar"}</CardTitle>
+            <CardDescription>
+              {isLoginPage ? "Login ke akun anda" : "Daftarkan akun anda"}
+            </CardDescription>
+          </div>
+          <ModeToggle isGhost />
         </CardHeader>
         <CardContent>
           {isLoginPage ? <LoginForm /> : <RegisterForm />}
