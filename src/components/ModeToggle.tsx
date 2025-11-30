@@ -1,23 +1,48 @@
-"use client"
+"use client";
 
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-export function ModeToggle() {
-  const { setTheme } = useTheme()
+interface Props {
+  isGhost?: boolean;
+  isDropdown?: boolean;
+}
+
+export function ModeToggle({ isGhost, isDropdown }: Props) {
+  const { setTheme, theme, systemTheme } = useTheme();
+
+  const handleSwitchTheme = () => {
+    if (theme === "system") {
+      return setTheme(systemTheme === "dark" ? "light" : "dark");
+    }
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  if (!isDropdown)
+    return (
+      <Button
+        onClick={handleSwitchTheme}
+        variant={isGhost ? "ghost" : "outline"}
+        size="icon"
+      >
+        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant={isGhost ? "ghost" : "outline"} size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>
@@ -35,5 +60,5 @@ export function ModeToggle() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
