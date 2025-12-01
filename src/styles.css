@@ -208,3 +208,25 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbarHide {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbarHide::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbarHide::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbarHide::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.scrollbarHide::-webkit-scrollbar-thumb:hover {
+  background-color: transparent;
+}
