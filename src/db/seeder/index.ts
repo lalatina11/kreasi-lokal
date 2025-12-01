@@ -6,7 +6,7 @@ import userSeeder from "./userSeeder";
 const main = async () => {
   await userSeeder();
   await categorySeeder();
-  await productSeeder()
+  await productSeeder();
 };
 
 main()
@@ -14,6 +14,6 @@ main()
     console.log(e);
     process.exit(1);
   })
-  .then(() => {
-    db.$client.end();
+  .then(async () => {
+    await db.$client.end();
   });
