@@ -4,6 +4,7 @@ import {
   timestamp,
   boolean,
   varchar,
+  integer,
 } from "drizzle-orm/pg-core";
 import * as authSchema from "./auth-schema";
 
@@ -25,7 +26,7 @@ export const product = pgTable("products", {
   }).notNull(),
   fullDescription: text("full_description").default(""),
   type: text("type", {
-    enum: ["goods", "services", "good_and_services"],
+    enum: ["goods", "services", "goods_and_services"],
   }).notNull(),
   image: text().default(""),
   isStockReady: boolean("is_stock_ready").default(true),
@@ -35,6 +36,8 @@ export const product = pgTable("products", {
   categoryId: text("category_id")
     .references(() => category.id, { onDelete: "cascade" })
     .notNull(),
+  price: integer().notNull(),
+  discountPrice: integer().$defaultFn(() => 0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
