@@ -40,6 +40,7 @@ const productSeeder = createServerFn().handler(async () => {
         userId: merchant.id,
         categoryId: category.id,
         shortDescription: `${name}`,
+        price: faker.number.int({ min: 5000, max: 1000000 }),
         type,
       })
     );
