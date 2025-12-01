@@ -1,9 +1,9 @@
+import AddProductForm from "@/components/forms/AddProductForm";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -34,8 +34,10 @@ export const Route = createFileRoute("/dashboard/merchant/katalog")({
 
 function RouteComponent() {
   const { products } = Route.useLoaderData();
+
   return (
-    <main className="min-h-screen container mx-auto mt-4">
+    <main className="min-h-screen flex flex-col gap-3 container mx-auto mt-4">
+      <AddProductForm />
       <section className="flex flex-col gap-3">
         <span className="text-xl font-semibold">
           Daftar Product yang anda tawarkan
@@ -60,16 +62,18 @@ function RouteComponent() {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.shortDescription}</TableCell>
                 <TableCell>{transformProductType(product.type)}</TableCell>
-                <TableCell>5000</TableCell>
+                <TableCell>{product.price.toLocaleString("id-ID")}</TableCell>
               </TableRow>
             ))}
           </TableBody>
-          <TableFooter>
+          {/* <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
+              <TableCell className="text-right">
+                {products.length > 0 && 0}
+              </TableCell>
             </TableRow>
-          </TableFooter>
+          </TableFooter> */}
         </Table>
       </section>
     </main>
