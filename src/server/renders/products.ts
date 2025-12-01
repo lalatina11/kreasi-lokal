@@ -24,6 +24,7 @@ export const getAllProductsByIsLoggedInMerchant = createServerFn({
         categoryId: tables.product.categoryId,
         image: tables.product.image,
         type: tables.product.type,
+        price: tables.product.price,
         createdAt: tables.product.createdAt,
         category: { id: tables.category.id, name: tables.category.name },
       })
