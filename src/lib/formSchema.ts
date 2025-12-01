@@ -69,3 +69,44 @@ export const createFeedSchema = z.object({
 });
 
 export type CreateFeedSchemaType = z.infer<typeof createFeedSchema>;
+
+const productTypeSchema = z.enum(["goods", "services", "goods_and_services"]);
+
+export const createProductSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Panjang minimal 3 karakter" })
+    .max(127, { message: "Panjang maksimal 127 karakter" }),
+  shortDescription: z
+    .string()
+    .min(3, { message: "Panjang minimal 3 karakter" })
+    .max(128, { message: "Panjang maksimal 128 karakter" }),
+  fullDescription: z.string().optional().default(""),
+  type: productTypeSchema.refine(
+    (type) => ["goods", "services", "goods_and_services"].includes(type),
+    {
+      message: "Hanya menerima 'barang', 'jasa', atau 'barang dan jasa'",
+    }
+  ),
+  image: z
+    .file()
+    .refine((file) => file.type.startsWith("image"), {
+      message: "Hanya menerima file gambar",
+    })
+    .refine((file) => file.size <= 4000000, {
+      message: "Ukuran gambar maksimum 4MB",
+    })
+    .optional(),
+  price: z.coerce
+    .number()
+    .min(1000, { message: "Harga minimal Rp 1.000" })
+    .max(100_000_000, { message: "Harga maksimal Rp 100.000.000" })
+    .default(0)
+    .refine((price) => price % 500 === 0, {
+      message: "Harga harus dapat dibagi 500",
+    }),
+  categoryId: z.string("Kategori wajib diisi"),
+  isStockReady: z.boolean(),
+});
+
+export type CreateProductSchemaType = z.infer<typeof createProductSchema>;
