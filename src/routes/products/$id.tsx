@@ -10,7 +10,12 @@ import {
   getNoProductImageLink,
   getProductById,
 } from "@/server/renders/products";
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  useRouter,
+} from "@tanstack/react-router";
 import { ShoppingCart, StepBack } from "lucide-react";
 
 export const Route = createFileRoute("/products/$id")({
@@ -18,6 +23,7 @@ export const Route = createFileRoute("/products/$id")({
   ssr: true,
   loader: async ({ params }) => {
     const [product] = await getProductById({ data: params.id });
+    if (!product) throw notFound();
     return { params, product };
   },
 });
