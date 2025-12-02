@@ -34,7 +34,7 @@ function RouteComponent() {
         <AddFeedForm allProducts={allProducts} />
       )}
       <section>
-        {feeds.length ? (
+        {feeds.length > 1 ? (
           <div className="flex flex-col gap-6 justify-center items-center">
             {feeds.map((feed) => (
               <Card key={feed.id} className="w-sm">
@@ -76,10 +76,12 @@ function RouteComponent() {
           </div>
         ) : (
           <span className="flex justify-center items-center text-muted-foreground text-sm">
-            Belum ada postingan, cobalah buat
+            {session.user.role === "merchant"
+              ? "Belum ada postingan, cobalah buat"
+              : "Belum ada pedagang yang membuat postingan"}
           </span>
         )}
-        {feeds.length && (
+        {feeds.length > 0 && (
           <span className="flex justify-center items-center text-muted-foreground text-sm mt-5">
             Semua feeds sudah dimuat
           </span>
