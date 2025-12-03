@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { switchCurrencyToIDR } from "@/lib/utils";
 import { getAllProductsByIsLoggedInMerchant } from "@/server/renders/products";
 import { Product } from "@/types/db/products";
 import { createFileRoute } from "@tanstack/react-router";
@@ -62,7 +63,7 @@ function RouteComponent() {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.shortDescription}</TableCell>
                 <TableCell>{transformProductType(product.type)}</TableCell>
-                <TableCell>{product.price.toLocaleString("id-ID")}</TableCell>
+                <TableCell>{switchCurrencyToIDR(product.price)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
