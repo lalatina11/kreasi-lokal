@@ -110,3 +110,13 @@ export const createProductSchema = z.object({
 });
 
 export type CreateProductSchemaType = z.infer<typeof createProductSchema>;
+
+export const addToChartSchema = z.object({
+  productId: z
+    .string()
+    .trim()
+    .refine((id) => id.length > 1, "Product tidak valid"),
+  quantity: z.coerce.number().min(1).default(1),
+});
+
+export type AddToChartSchema = z.infer<typeof addToChartSchema>;
