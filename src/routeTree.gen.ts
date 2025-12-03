@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as CartsIndexRouteImport } from './routes/carts/index'
 import { Route as ProductsIdRouteImport } from './routes/products/$id'
 import { Route as DashboardMerchantIndexRouteImport } from './routes/dashboard/merchant/index'
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
@@ -51,6 +52,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CartsIndexRoute = CartsIndexRouteImport.update({
+  id: '/carts/',
+  path: '/carts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsIdRoute = ProductsIdRouteImport.update({
   id: '/products/$id',
   path: '/products/$id',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
   '/products/$id': typeof ProductsIdRoute
+  '/carts': typeof CartsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/products': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
   '/products/$id': typeof ProductsIdRoute
+  '/carts': typeof CartsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/products': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
   '/products/$id': typeof ProductsIdRoute
+  '/carts/': typeof CartsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/feeds'
     | '/setting'
     | '/products/$id'
+    | '/carts'
     | '/dashboard'
     | '/products'
     | '/api/auth/$'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/feeds'
     | '/setting'
     | '/products/$id'
+    | '/carts'
     | '/dashboard'
     | '/products'
     | '/api/auth/$'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/feeds'
     | '/setting'
     | '/products/$id'
+    | '/carts/'
     | '/dashboard/'
     | '/products/'
     | '/api/auth/$'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   FeedsRoute: typeof FeedsRoute
   SettingRoute: typeof SettingRoute
   ProductsIdRoute: typeof ProductsIdRoute
+  CartsIndexRoute: typeof CartsIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/carts/': {
+      id: '/carts/'
+      path: '/carts'
+      fullPath: '/carts'
+      preLoaderRoute: typeof CartsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$id': {
       id: '/products/$id'
       path: '/products/$id'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeedsRoute: FeedsRoute,
   SettingRoute: SettingRoute,
   ProductsIdRoute: ProductsIdRoute,
+  CartsIndexRoute: CartsIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
