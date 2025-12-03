@@ -92,13 +92,13 @@ const AddFeedForm = ({ allProducts }: Props) => {
       await createFeedAction({ data: formData });
       form.reset();
       setProducts(allProducts);
+      await router.invalidate();
       toast.success("Berhasil membuat feed!", {
         action: {
           label: "OK",
           onClick: () => {},
         },
       });
-      await router.invalidate();
     } catch (error) {
       const { message } = error as Error;
       toast.error("Gagal membuat feed", {
