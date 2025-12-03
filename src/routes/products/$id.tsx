@@ -1,3 +1,4 @@
+import AddToChart from "@/components/AddToChart";
 import BackButton from "@/components/BackButton";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +14,7 @@ import {
   getProductById,
 } from "@/server/renders/products";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ListOrdered, LogIn, ShoppingCart } from "lucide-react";
+import { ArrowRightCircle, ListOrdered, LogIn } from "lucide-react";
 
 export const Route = createFileRoute("/products/$id")({
   component: RouteComponent,
@@ -30,7 +31,7 @@ function RouteComponent() {
   const { product, session } = Route.useLoaderData();
 
   return (
-    <div className="container mx-auto flex flex-col gap-3 m-3">
+    <div className="container mx-auto flex flex-col gap-3 m-3 mb-10">
       <BackButton />
       <Card className="flex-1">
         <CardHeader className="flex justify-between items-center gap-3">
@@ -44,10 +45,7 @@ function RouteComponent() {
                 <ListOrdered />
                 Checkout langsung
               </Button>
-              <Button>
-                <ShoppingCart />
-                Tambah ke keranjang
-              </Button>
+              <AddToChart product={product} />
             </div>
           ) : (
             <Button asChild>
@@ -77,7 +75,9 @@ function RouteComponent() {
       </Card>
 
       <Button className="w-fit self-center" asChild>
-        <Link to="/products">Lihat semua produk</Link>
+        <Link to="/products">
+          Lihat semua produk <ArrowRightCircle />
+        </Link>
       </Button>
     </div>
   );
