@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,17 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getUserSessionByServer } from "@/server/renders/auth";
 import {
   getNoProductImageLink,
   getProductById,
 } from "@/server/renders/products";
-import {
-  createFileRoute,
-  Link,
-  notFound,
-  useRouter,
-} from "@tanstack/react-router";
-import { ShoppingCart, StepBack } from "lucide-react";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ListOrdered, LogIn, ShoppingCart } from "lucide-react";
 
 export const Route = createFileRoute("/products/$id")({
   component: RouteComponent,
@@ -24,34 +21,42 @@ export const Route = createFileRoute("/products/$id")({
   loader: async ({ params }) => {
     const [product] = await getProductById({ data: params.id });
     if (!product) throw notFound();
-    return { params, product };
+    const session = await getUserSessionByServer();
+    return { params, product, session };
   },
 });
 
 function RouteComponent() {
-  const { product } = Route.useLoaderData();
-  const router = useRouter();
+  const { product, session } = Route.useLoaderData();
 
   return (
     <div className="container mx-auto flex flex-col gap-3 m-3">
-      <Button
-        className="w-fit self-start"
-        onClick={() => router.history.back()}
-        variant={"outline"}
-      >
-        <StepBack />
-        Back
-      </Button>
+      <BackButton />
       <Card className="flex-1">
         <CardHeader className="flex justify-between items-center gap-3">
           <div>
             <CardTitle>{product.name}</CardTitle>
             <CardDescription>{product.shortDescription}</CardDescription>
           </div>
-          <Button>
-            <ShoppingCart />
-            Checkout
-          </Button>
+          {session ? (
+            <div className="flex gap-2 items-center">
+              <Button>
+                <ListOrdered />
+                Checkout langsung
+              </Button>
+              <Button>
+                <ShoppingCart />
+                Tambah ke keranjang
+              </Button>
+            </div>
+          ) : (
+            <Button asChild>
+              <Link to="/auth">
+                <LogIn />
+                Login untuk Checkout
+              </Link>
+            </Button>
+          )}
         </CardHeader>
         <CardContent className="flex w-full flex-col gap-2">
           <img
