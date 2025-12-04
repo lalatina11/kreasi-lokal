@@ -116,7 +116,7 @@ export const order = pgTable("orders", {
   totalAmount: integer("total_amount").notNull(),
 
   status: text("status", {
-    enum: ["pending", "shipping", "completed"],
+    enum: ["pending", "awaiting_shipment_number", "shipping", "completed"],
   }).default("pending"),
 
   shippingNumber: varchar("shipping_number", { length: 64 }),
