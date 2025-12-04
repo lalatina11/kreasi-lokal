@@ -13,7 +13,7 @@ import { switchCurrencyToIDR, switchOrderStatus } from "@/lib/utils";
 import { getUserSessionByServer } from "@/server/renders/auth";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Clock, ListOrderedIcon } from "lucide-react";
 import { useState } from "react";
 import z from "zod/v3";
@@ -32,6 +32,7 @@ export const getOrders = createServerFn({ method: "GET" })
           },
         },
       },
+      orderBy: desc(tables.order.createdAt),
     });
   });
 
@@ -143,6 +144,11 @@ function RouteComponent() {
                         Penting: Harap hubungi{" "}
                         {item.merchantAdditionalInfo.phoneNumber} untuk
                         konfirmasi pembelian
+                      </span>
+                    )}
+                    {order.shippingNumber && (
+                      <span className="text-sm">
+                        Nomor Resi: {order.shippingNumber}
                       </span>
                     )}
                   </div>
