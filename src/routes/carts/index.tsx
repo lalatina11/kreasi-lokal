@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import CheckOutForm from "@/components/forms/CheckOutForm";
 import {
   Card,
   CardContent,
@@ -35,7 +35,6 @@ export const Route = createFileRoute("/carts/")({
 
 function RouteComponent() {
   const { carts } = Route.useLoaderData();
-  console.log(carts);
   const [selectedCartId, setselectedCartId] = useState(
     carts.length > 0 ? carts[0].id : ""
   );
@@ -89,14 +88,11 @@ function RouteComponent() {
         carts
           .filter((cart) => cart.id === selectedCartId)
           .map((cart) => (
-            <Card
-              key={cart.id}
-              className="hidden md:flex col-span-1 lg:col-span-2"
-            >
+            <Card key={cart.id} className="md:flex col-span-1 lg:col-span-2">
               <CardHeader>
-                <CardTitle>Detail Keranjang</CardTitle>
+                <CardTitle>Detail Keranjang Terpilih</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col gap-6">
+              <CardContent>
                 {cart.items.map((item) => (
                   <div key={item.id} className="flex flex-col gap-1 text-sm">
                     <span>Produk: {item.product.name}</span>
@@ -108,9 +104,14 @@ function RouteComponent() {
                       Total:{" "}
                       {switchCurrencyToIDR(item.quantity * item.product.price)}
                     </span>
+                    <div className="mt-2">
+                      <CheckOutForm
+                        totalPrice={item.quantity * item.product.price}
+                        cartId={selectedCartId}
+                      />
+                    </div>
                   </div>
                 ))}
-                <Button>CheckOut</Button>
               </CardContent>
             </Card>
           ))
