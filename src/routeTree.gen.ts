@@ -22,6 +22,7 @@ import { Route as DashboardMerchantIndexRouteImport } from './routes/dashboard/m
 import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admin/index'
 import { Route as DashboardMerchantKatalogRouteImport } from './routes/dashboard/merchant/katalog'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as DashboardMerchantOrdersIndexRouteImport } from './routes/dashboard/merchant/orders/index'
 
 const SettingRoute = SettingRouteImport.update({
   id: '/setting',
@@ -89,6 +90,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardMerchantOrdersIndexRoute =
+  DashboardMerchantOrdersIndexRouteImport.update({
+    id: '/dashboard/merchant/orders/',
+    path: '/dashboard/merchant/orders/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
   '/dashboard/merchant': typeof DashboardMerchantIndexRoute
+  '/dashboard/merchant/orders': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -119,6 +127,7 @@ export interface FileRoutesByTo {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
   '/dashboard/merchant': typeof DashboardMerchantIndexRoute
+  '/dashboard/merchant/orders': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -135,6 +144,7 @@ export interface FileRoutesById {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
   '/dashboard/merchant/': typeof DashboardMerchantIndexRoute
+  '/dashboard/merchant/orders/': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
     | '/dashboard/merchant'
+    | '/dashboard/merchant/orders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
     | '/dashboard/merchant'
+    | '/dashboard/merchant/orders'
   id:
     | '__root__'
     | '/'
@@ -182,6 +194,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin/'
     | '/dashboard/merchant/'
+    | '/dashboard/merchant/orders/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -198,6 +211,7 @@ export interface RootRouteChildren {
   DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
   DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
   DashboardMerchantIndexRoute: typeof DashboardMerchantIndexRoute
+  DashboardMerchantOrdersIndexRoute: typeof DashboardMerchantOrdersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -293,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/merchant/orders/': {
+      id: '/dashboard/merchant/orders/'
+      path: '/dashboard/merchant/orders'
+      fullPath: '/dashboard/merchant/orders'
+      preLoaderRoute: typeof DashboardMerchantOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -310,6 +331,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
   DashboardAdminIndexRoute: DashboardAdminIndexRoute,
   DashboardMerchantIndexRoute: DashboardMerchantIndexRoute,
+  DashboardMerchantOrdersIndexRoute: DashboardMerchantOrdersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
