@@ -130,3 +130,16 @@ export const createOrderSchema = z.object({
 });
 
 export type CreateOrderSchema = z.infer<typeof createOrderSchema>;
+
+export const addShippingNumberSchema = z.object({
+  orderId: z
+    .string()
+    .trim()
+    .refine((id) => id.trim().length > 6, "Order tidak valid"),
+  shippingNumber: z
+    .string()
+    .trim()
+    .refine((id) => id.trim().length > 6, "Nomor Resi tidak valid"),
+});
+
+export type AddShippingNumberSchema = z.infer<typeof addShippingNumberSchema>;
