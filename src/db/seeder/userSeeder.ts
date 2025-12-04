@@ -6,6 +6,7 @@ import z from "zod";
 import db from "..";
 import { user } from "../schema";
 import { tables } from "../tables";
+import { getBanyumasDistrict } from "@/lib/utils";
 
 const registerSeederSchema = z.object({
   index: z.number().min(1).max(3),
@@ -20,7 +21,7 @@ const registerSeeder = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const role = numberToRole(data.index);
     const password = process.env.USER_SEEDER_PASSWORD as string;
-    await auth.api.signUpEmail({
+    const { user } = await auth.api.signUpEmail({
       body: {
         email: `${role}@${role}.com`,
         password,
@@ -30,6 +31,12 @@ const registerSeeder = createServerFn({ method: "POST" })
       },
     });
     await db.delete(tables.session);
+    await db.insert(tables.userAdditionalInfo).values({
+      id: crypto.randomUUID(),
+      userId: user.id,
+      address: faker.helpers.arrayElement(getBanyumasDistrict()),
+      phoneNumber: faker.phone.number(),
+    });
   });
 
 const userSeeder = async () => {
