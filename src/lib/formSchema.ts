@@ -120,3 +120,13 @@ export const addToChartSchema = z.object({
 });
 
 export type AddToChartSchema = z.infer<typeof addToChartSchema>;
+
+export const createOrderSchema = z.object({
+  cartId: z
+    .string()
+    .trim()
+    .refine((id) => id.trim() !== "", "Keranjang tidak valid"),
+  merchantNote: z.string().optional().default(""),
+});
+
+export type CreateOrderSchema = z.infer<typeof createOrderSchema>;
