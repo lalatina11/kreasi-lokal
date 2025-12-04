@@ -49,3 +49,18 @@ export const getBanyumasDistrict = () => {
     "Wangon",
   ] as const;
 };
+
+export function switchOrderStatus(status: string) {
+  switch (status) {
+    case "pending":
+      return "Pending";
+    case "awaiting_shipment_number":
+      return "Menunggu Resi";
+    case "shipping":
+      return "Dalam Perjalanan";
+    case "completed":
+      return "Selesai";
+    default:
+      return "";
+  }
+}
