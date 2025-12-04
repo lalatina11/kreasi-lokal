@@ -9,7 +9,7 @@ import {
 import { Item } from "@/components/ui/item";
 import db from "@/db";
 import { tables } from "@/db/tables";
-import { switchCurrencyToIDR } from "@/lib/utils";
+import { switchCurrencyToIDR, switchOrderStatus } from "@/lib/utils";
 import { getUserSessionByServer } from "@/server/renders/auth";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
@@ -52,8 +52,6 @@ function RouteComponent() {
     orders.length > 0 ? orders[0].id : ""
   );
 
-  console.log(orders);
-
   if (orders.length < 1)
     return (
       <span className="flex gap-3 justify-center items-center my-10 text-muted-foreground">
@@ -62,6 +60,8 @@ function RouteComponent() {
     );
 
   const isOrderPending = (status: string) => status === "pending";
+  const isOrderAwaitingShipmentNumber = (status: string) =>
+    status === "awaiting_shipment_number";
 
   return (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-3 pb-10">
@@ -126,8 +126,13 @@ function RouteComponent() {
                           order.status === "completed" ? "default" : "secondary"
                         }
                       >
-                        {isOrderPending(order.status as string) && <Clock />}
-                        {order.status}
+                        {isOrderPending(order.status as string) ||
+                        isOrderAwaitingShipmentNumber(
+                          order.status as string
+                        ) ? (
+                          <Clock />
+                        ) : null}
+                        {switchOrderStatus(order.status as string)}
                       </Badge>
                     </div>
                     <span className="text-xs text-muted-foreground">
