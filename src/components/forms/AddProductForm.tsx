@@ -118,7 +118,7 @@ export const ProductForm = ({
         data.append(key, value.toString());
       }
     });
-    const { error, message } = await createProductForMerchant({ data });
+    const { error, message, id } = await createProductForMerchant({ data });
     if (error) {
       form.setError("root", { message });
       toast.error("Gagal menambahkan produk", {
@@ -133,7 +133,9 @@ export const ProductForm = ({
       toast.success("Berhasil menambahkan produk", {
         action: {
           label: "OK",
-          onClick: () => {},
+          onClick: async () => {
+            await router.navigate({ to: "/products/$id", params: { id } });
+          },
         },
       });
       handleCloseSheet();
