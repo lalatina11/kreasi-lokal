@@ -43,17 +43,20 @@ export const createProductForMerchant = createServerFn({
         throw new Error("Kategori Produk tidak valid!");
       }
 
-      await db.insert(tables.product).values({
-        id: crypto.randomUUID(),
-        ...data,
-        image,
-        userId: session.user.id,
-        isStockReady,
-      });
+      const [product] = await db
+        .insert(tables.product)
+        .values({
+          id: crypto.randomUUID(),
+          ...data,
+          image,
+          userId: session.user.id,
+          isStockReady,
+        })
+        .returning();
 
-      return { error: false, message: "created" };
+      return { error: false, message: "created", id: product.id };
     } catch (error) {
       const { message } = error as Error;
-      return { error: true, message };
+      return { error: true, message, id: null };
     }
   });
