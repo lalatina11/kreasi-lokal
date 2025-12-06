@@ -1,3 +1,4 @@
+import AuthPageContainer from "@/components/containers/AuthPageContainer";
 import LoginForm from "@/components/forms/LoginForm";
 import RegisterForm from "@/components/forms/RegisterForm";
 import { ModeToggle } from "@/components/ModeToggle";
@@ -25,32 +26,34 @@ function RouteComponent() {
     setParams(isLoginPage ? "register" : "login");
   };
   return (
-    <main className="flex justify-center items-center min-h-screen py-10">
-      <Card className="w-sm lg:w-md mx-auto">
-        <CardHeader className="flex flex-row justify-between items-center">
-          <div>
-            <CardTitle>{isLoginPage ? "Login" : "Daftar"}</CardTitle>
-            <CardDescription>
-              {isLoginPage ? "Login ke akun anda" : "Daftarkan akun anda"}
-            </CardDescription>
-          </div>
-          <ModeToggle isGhost />
-        </CardHeader>
-        <CardContent>
-          {isLoginPage ? <LoginForm /> : <RegisterForm />}
-        </CardContent>
-        <CardFooter>
-          <span className="flex gap-1 items-center text-xs cursor-pointer">
-            {isLoginPage ? "Belum punya akun?" : "Sudah punya akun?"}
-            <span
-              className="underline underline-offset-2"
-              onClick={switchParams}
-            >
-              {isLoginPage ? "daftar disini" : "login disini"}
+    <AuthPageContainer>
+      <main className="flex justify-center items-center min-h-screen py-10">
+        <Card className="w-sm lg:w-md mx-auto">
+          <CardHeader className="flex flex-row justify-between items-center">
+            <div>
+              <CardTitle>{isLoginPage ? "Login" : "Daftar"}</CardTitle>
+              <CardDescription>
+                {isLoginPage ? "Login ke akun anda" : "Daftarkan akun anda"}
+              </CardDescription>
+            </div>
+            <ModeToggle isGhost />
+          </CardHeader>
+          <CardContent>
+            {isLoginPage ? <LoginForm /> : <RegisterForm />}
+          </CardContent>
+          <CardFooter>
+            <span className="flex gap-1 items-center text-xs cursor-pointer">
+              {isLoginPage ? "Belum punya akun?" : "Sudah punya akun?"}
+              <span
+                className="underline underline-offset-2"
+                onClick={switchParams}
+              >
+                {isLoginPage ? "daftar disini" : "login disini"}
+              </span>
             </span>
-          </span>
-        </CardFooter>
-      </Card>
-    </main>
+          </CardFooter>
+        </Card>
+      </main>
+    </AuthPageContainer>
   );
 }
