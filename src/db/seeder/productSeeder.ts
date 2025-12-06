@@ -1,9 +1,13 @@
+import {
+  getProductImageURLByCategory,
+  getProductNameByCategory,
+} from "@/lib/utils";
+import { Product } from "@/types/db/products";
+import { faker } from "@faker-js/faker";
+import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import db from "..";
 import { tables } from "../tables";
-import { createServerFn } from "@tanstack/react-start";
-import { faker } from "@faker-js/faker";
-import { Product } from "@/types/db/products";
 
 const productSeeder = createServerFn().handler(async () => {
   console.log("Mencari pemilik usaha...");
@@ -26,17 +30,13 @@ const productSeeder = createServerFn().handler(async () => {
   }
   console.log("Kategori ditemukan!\nMembuat Produk...");
   for (const category of categories) {
-    const companyName = faker.company.buzzPhrase();
-    const name = `${category.name} ${companyName}`;
-    const type = faker.helpers.arrayElement([
-      "goods",
-      "services",
-      "goods_and_services",
-    ] as Array<Product["type"]>);
+    const name = getProductNameByCategory(category.name);
+    const type = "goods" as Product["type"];
     await db.transaction((tx) =>
       tx.insert(tables.product).values({
         id: crypto.randomUUID(),
         name,
+        image: getProductImageURLByCategory(category.name),
         userId: merchant.id,
         categoryId: category.id,
         shortDescription: `${name}`,
