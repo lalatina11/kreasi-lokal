@@ -17,10 +17,13 @@ interface Props {
 
 const ProductCard = ({ products }: Props) => {
   return products.map((product) => (
-    <Card key={product.id}>
+    <Card
+      key={product.id}
+      className="hover:scale-105 transition-all duration-300"
+    >
       <CardContent>
         <img
-          className="rounded-md object-cover"
+          className="rounded-md object-cover aspect-square ease-in-out"
           src={product.image || getNoProductImageLink()}
           alt=""
         />
