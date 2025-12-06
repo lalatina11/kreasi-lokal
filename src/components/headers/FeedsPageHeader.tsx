@@ -32,6 +32,9 @@ const FeedsPageHeader = ({ session }: Props) => {
             </Link>
           </Button>
         )}
+        <Button asChild>
+          <Link to="/products">Produk</Link>
+        </Button>
         <LogoutForm />
         <ModeToggle />
       </nav>
