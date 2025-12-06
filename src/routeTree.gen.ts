@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingRouteImport } from './routes/setting'
 import { Route as FeedsRouteImport } from './routes/feeds'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as OrdersIndexRouteImport } from './routes/orders/index'
@@ -39,6 +40,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,9 +61,9 @@ const OrdersIndexRoute = OrdersIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const CartsIndexRoute = CartsIndexRouteImport.update({
   id: '/carts/',
@@ -70,20 +76,20 @@ const ProductsIdRoute = ProductsIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardMerchantIndexRoute = DashboardMerchantIndexRouteImport.update({
-  id: '/dashboard/merchant/',
-  path: '/dashboard/merchant/',
-  getParentRoute: () => rootRouteImport,
+  id: '/merchant/',
+  path: '/merchant/',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardAdminIndexRoute = DashboardAdminIndexRouteImport.update({
-  id: '/dashboard/admin/',
-  path: '/dashboard/admin/',
-  getParentRoute: () => rootRouteImport,
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardMerchantKatalogRoute =
   DashboardMerchantKatalogRouteImport.update({
-    id: '/dashboard/merchant/katalog',
-    path: '/dashboard/merchant/katalog',
-    getParentRoute: () => rootRouteImport,
+    id: '/merchant/katalog',
+    path: '/merchant/katalog',
+    getParentRoute: () => DashboardRouteRoute,
   } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -92,19 +98,20 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 const DashboardMerchantOrdersIndexRoute =
   DashboardMerchantOrdersIndexRouteImport.update({
-    id: '/dashboard/merchant/orders/',
-    path: '/dashboard/merchant/orders/',
-    getParentRoute: () => rootRouteImport,
+    id: '/merchant/orders/',
+    path: '/merchant/orders/',
+    getParentRoute: () => DashboardRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
   '/products/$id': typeof ProductsIdRoute
   '/carts': typeof CartsIndexRoute
-  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/orders': typeof OrdersIndexRoute
   '/products': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
@@ -150,12 +158,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
     | '/auth'
     | '/feeds'
     | '/setting'
     | '/products/$id'
     | '/carts'
-    | '/dashboard'
+    | '/dashboard/'
     | '/orders'
     | '/products'
     | '/api/auth/$'
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/dashboard'
     | '/auth'
     | '/feeds'
     | '/setting'
@@ -199,19 +209,15 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   FeedsRoute: typeof FeedsRoute
   SettingRoute: typeof SettingRoute
   ProductsIdRoute: typeof ProductsIdRoute
   CartsIndexRoute: typeof CartsIndexRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
-  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
-  DashboardMerchantIndexRoute: typeof DashboardMerchantIndexRoute
-  DashboardMerchantOrdersIndexRoute: typeof DashboardMerchantOrdersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -237,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -260,10 +273,10 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/': {
       id: '/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
+      path: '/'
+      fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/carts/': {
       id: '/carts/'
@@ -281,24 +294,24 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/merchant/': {
       id: '/dashboard/merchant/'
-      path: '/dashboard/merchant'
+      path: '/merchant'
       fullPath: '/dashboard/merchant'
       preLoaderRoute: typeof DashboardMerchantIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/admin/': {
       id: '/dashboard/admin/'
-      path: '/dashboard/admin'
+      path: '/admin'
       fullPath: '/dashboard/admin'
       preLoaderRoute: typeof DashboardAdminIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/merchant/katalog': {
       id: '/dashboard/merchant/katalog'
-      path: '/dashboard/merchant/katalog'
+      path: '/merchant/katalog'
       fullPath: '/dashboard/merchant/katalog'
       preLoaderRoute: typeof DashboardMerchantKatalogRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -309,29 +322,45 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/merchant/orders/': {
       id: '/dashboard/merchant/orders/'
-      path: '/dashboard/merchant/orders'
+      path: '/merchant/orders'
       fullPath: '/dashboard/merchant/orders'
       preLoaderRoute: typeof DashboardMerchantOrdersIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
   }
 }
 
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
+  DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
+  DashboardMerchantIndexRoute: typeof DashboardMerchantIndexRoute
+  DashboardMerchantOrdersIndexRoute: typeof DashboardMerchantOrdersIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
+  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
+  DashboardMerchantIndexRoute: DashboardMerchantIndexRoute,
+  DashboardMerchantOrdersIndexRoute: DashboardMerchantOrdersIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   FeedsRoute: FeedsRoute,
   SettingRoute: SettingRoute,
   ProductsIdRoute: ProductsIdRoute,
   CartsIndexRoute: CartsIndexRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
   OrdersIndexRoute: OrdersIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
-  DashboardAdminIndexRoute: DashboardAdminIndexRoute,
-  DashboardMerchantIndexRoute: DashboardMerchantIndexRoute,
-  DashboardMerchantOrdersIndexRoute: DashboardMerchantOrdersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
