@@ -12,7 +12,7 @@ const ToasterProvider = () => {
 
   const isInvert = inverting();
 
-  return <Toaster invert={isInvert} />;
+  return <Toaster invert={isInvert} position="top-center" />;
 };
 
 export default ToasterProvider;
