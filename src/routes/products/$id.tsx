@@ -41,7 +41,7 @@ function RouteComponent() {
             <CardTitle>{product.name}</CardTitle>
             <CardDescription>{product.shortDescription}</CardDescription>
           </div>
-          {session ? (
+          {session && session.user.role === "user" ? (
             <div className="flex gap-2 items-center">
               <Button>
                 <ListOrdered />
@@ -49,7 +49,7 @@ function RouteComponent() {
               </Button>
               <AddToChart product={product} />
             </div>
-          ) : (
+          ) : session && session.user.role !== "user" ? null : (
             <Button asChild>
               <Link to="/auth">
                 <LogIn />
