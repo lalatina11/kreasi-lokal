@@ -1,15 +1,8 @@
 import { eq } from "drizzle-orm";
 import db from "..";
 import { tables } from "../tables";
-import { Category } from "@/types/db/category";
+import { neededCategory } from "@/lib/utils";
 
-const neededCategory = [
-  { id: crypto.randomUUID(), name: "fashion" },
-  { id: crypto.randomUUID(), name: "food" },
-  { id: crypto.randomUUID(), name: "elektronik" },
-  { id: crypto.randomUUID(), name: "aksesori" },
-  { id: crypto.randomUUID(), name: "mainan" },
-] as Array<Category>;
 
 const categorySeeder = async () => {
   const [merchant] = await db
