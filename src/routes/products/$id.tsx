@@ -1,5 +1,6 @@
 import AddToChart from "@/components/AddToChart";
 import BackButton from "@/components/BackButton";
+import NotFound from "@/components/NotFound";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/products/$id")({
     const session = await getUserSessionByServer();
     return { params, product, session };
   },
+  notFoundComponent: () => <NotFound />,
 });
 
 function RouteComponent() {
