@@ -50,8 +50,16 @@ function RouteComponent() {
                     <span>{feed.user?.name}</span>
                   </CardHeader>
                   <CardContent className="flex flex-col gap-3">
-                    {feed.product?.image && (
-                      <img src={feed.product?.image as string} />
+                    {feed.image ? (
+                      <img
+                        className="w-full h-auto aspect-square rounded-md object-cover"
+                        src={feed.image as string}
+                      />
+                    ) : (
+                      <img
+                        className="w-full h-auto aspect-square rounded-md object-cover"
+                        src={feed.product?.image as string}
+                      />
                     )}
                     <span>{feed.text}</span>
                   </CardContent>
@@ -63,7 +71,7 @@ function RouteComponent() {
                         </span>
                         <div className="bg-accent w-full p-2 rounded-md flex gap-2 items-center truncate">
                           <Avatar>
-                            <AvatarImage src={""} />
+                            <AvatarImage src={feed.product.image || ""} />
                             <AvatarFallback>-</AvatarFallback>
                           </Avatar>
                           <span className="text-sm truncate">
