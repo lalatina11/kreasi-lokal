@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import ToastProvider from "@/components/providers/ToasterProvider";
 import { authMiddlewareAsResponse } from "@/server/middlewares/authMiddleware";
 import QueryClientProvider from "@/components/providers/QueryClientProvider";
+import NotFound from "@/components/NotFound";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,6 +28,10 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        href: "kl-simple.svg",
+      },
     ],
   }),
   ssr: true,
@@ -34,7 +39,7 @@ export const Route = createRootRoute({
     middleware: [authMiddlewareAsResponse],
   },
   shellComponent: RootDocument,
-  notFoundComponent: () => <div>Not Found</div>,
+  notFoundComponent: () => <NotFound />,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
