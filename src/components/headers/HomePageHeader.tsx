@@ -2,15 +2,15 @@ import { authClient } from "@/lib/authClient";
 import { Link } from "@tanstack/react-router";
 import LogoutForm from "../forms/LogoutForm";
 import { Button } from "../ui/button";
+import Logo from "./Logo";
+import { ModeToggle } from "../ModeToggle";
 
 const HomePageHeader = () => {
   const { isPending, data } = authClient.useSession();
 
   return (
-    <header className="flex justify-between p-4">
-      <Link to="/" className="text-lg font-semibold">
-        Kreasi Lokal
-      </Link>
+    <header className="flex justify-between items-center p-4 border-b">
+      <Logo />
       <nav className="flex gap-2 items-center">
         <Button asChild>
           <Link to="/products">Products</Link>
@@ -25,6 +25,7 @@ const HomePageHeader = () => {
           </Link>
         </Button>
         {data && <LogoutForm />}
+        <ModeToggle />
       </nav>
     </header>
   );
