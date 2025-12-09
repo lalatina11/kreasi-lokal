@@ -1,6 +1,8 @@
 import AddToChart from "@/components/AddToChart";
 import BackButton from "@/components/BackButton";
+import BannedForm from "@/components/forms/BannedForm";
 import NotFound from "@/components/NotFound";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,19 +11,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { switchCurrencyToIDR } from "@/lib/utils";
 import { getUserSessionByServer } from "@/server/renders/auth";
 import {
   getNoProductImageLink,
   getProductById,
 } from "@/server/renders/products";
+import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRightCircle, ListOrdered, LogIn } from "lucide-react";
+import { ArrowRightCircle, ListOrdered, LogIn, User } from "lucide-react";
 
 export const Route = createFileRoute("/products/$id")({
   component: RouteComponent,
   ssr: true,
   loader: async ({ params }) => {
-    const [product] = await getProductById({ data: params.id });
+    const product = await getProductById({ data: params.id });
     if (!product) throw notFound();
     const session = await getUserSessionByServer();
     return { params, product, session };
@@ -39,7 +48,10 @@ function RouteComponent() {
         <CardHeader className="flex justify-between items-center gap-3">
           <div>
             <CardTitle>{product.name}</CardTitle>
-            <CardDescription>{product.shortDescription}</CardDescription>
+            <CardDescription className="flex flex-col gap-2">
+              <span>{product.shortDescription}</span>
+              <span>{switchCurrencyToIDR(product.price)}</span>
+            </CardDescription>
           </div>
           {session && session.user.role === "user" ? (
             <div className="flex gap-2 items-center">
@@ -64,16 +76,63 @@ function RouteComponent() {
             src={product.image || getNoProductImageLink()}
           />
           {product.fullDescription ? (
-            <span>{product.fullDescription}</span>
+            <span>Deskripsi Lengkap: {product.fullDescription}</span>
           ) : (
             <span className="text-muted-foreground text-xs">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Molestiae praesentium quos vel sed, illo totam eaque error sequi
-              accusantium consectetur ex a suscipit aperiam recusandae autem
-              excepturi quaerat provident doloribus.
+              Deskripsi Lengkap: Lorem ipsum dolor sit, amet consectetur
+              adipisicing elit. Molestiae praesentium quos vel sed, illo totam
+              eaque error sequi accusantium consectetur ex a suscipit aperiam
+              recusandae autem excepturi quaerat provident doloribus.
             </span>
           )}
         </CardContent>
+        <div className="ml-4 flex w-full">
+          <HoverCard>
+            <HoverCardTrigger>
+              <div className="flex w-fit gap-2 items-center">
+                <Avatar>
+                  <AvatarImage src={product.owner.avatar || ""} />
+                  <AvatarFallback>
+                    <User />
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm">{product.owner.name}</span>
+              </div>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <div className="flex flex-col gap-2">
+                <div className="flex w-fit gap-2 items-center">
+                  <Avatar>
+                    <AvatarImage src={product.owner.avatar || ""} />
+                    <AvatarFallback>
+                      <User />
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm">{product.owner.name}</span>
+                </div>
+                {product.owner.bio ? (
+                  <span className="text-xs text-muted-foreground">
+                    {product.owner.bio}
+                  </span>
+                ) : (
+                  <span className="text-xs text-muted-foreground">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </span>
+                )}
+                <span className="text-xs text-muted-foreground">
+                  Bergabung Pada{" "}
+                  {product.owner.createdAt.toLocaleDateString("id-ID")}
+                </span>
+                {session?.user.role === "admin" && (
+                  <BannedForm
+                    userId={product.userId}
+                    isBanned={product.owner.isBanned}
+                  />
+                )}
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+        </div>
       </Card>
 
       <Button className="w-fit self-center" asChild>
