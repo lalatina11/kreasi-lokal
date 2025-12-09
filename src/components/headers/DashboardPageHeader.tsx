@@ -11,6 +11,7 @@ interface Props {
 
 const DashboardPageHeader = ({ session }: Props) => {
   const isMerchant = session?.user.role === "merchant";
+  const isAdmin = session?.user.role === "admin";
 
   if (!session) return null;
 
@@ -25,6 +26,13 @@ const DashboardPageHeader = ({ session }: Props) => {
             </Button>
             <Button asChild>
               <Link to="/dashboard/merchant/orders">Orders</Link>
+            </Button>
+          </>
+        )}
+        {isAdmin && (
+          <>
+            <Button asChild>
+              <Link to="/dashboard/admin/users">Katalog</Link>
             </Button>
           </>
         )}
