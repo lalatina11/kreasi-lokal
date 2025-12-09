@@ -44,7 +44,7 @@ const BannedForm = ({ userId, isBanned }: Props) => {
         ) : !isloading && isBanned ? (
           "Batalkan banned"
         ) : !isloading && !isBanned ? (
-          "Banned Penjual ini"
+          "Banned Pengguna/Pedagang ini"
         ) : null}
       </Button>
     </form>
