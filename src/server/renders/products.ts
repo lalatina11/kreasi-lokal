@@ -40,10 +40,10 @@ export const getAllProductsByIsLoggedInMerchant = createServerFn({
 export const getProductById = createServerFn({ method: "GET" })
   .inputValidator((id: string) => id)
   .handler(async ({ data: id }) => {
-    return await db
-      .select()
-      .from(tables.product)
-      .where(eq(tables.product.id, id));
+    return await db.query.product.findFirst({
+      where: eq(tables.product.id, id),
+      with: { owner: true },
+    });
   });
 
 export const getAllProducts = createServerFn({ method: "GET" }).handler(
