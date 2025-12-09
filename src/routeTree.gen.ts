@@ -24,6 +24,7 @@ import { Route as DashboardAdminIndexRouteImport } from './routes/dashboard/admi
 import { Route as DashboardMerchantKatalogRouteImport } from './routes/dashboard/merchant/katalog'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as DashboardMerchantOrdersIndexRouteImport } from './routes/dashboard/merchant/orders/index'
+import { Route as DashboardAdminUsersIndexRouteImport } from './routes/dashboard/admin/users/index'
 
 const SettingRoute = SettingRouteImport.update({
   id: '/setting',
@@ -102,6 +103,12 @@ const DashboardMerchantOrdersIndexRoute =
     path: '/merchant/orders/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardAdminUsersIndexRoute =
+  DashboardAdminUsersIndexRouteImport.update({
+    id: '/admin/users/',
+    path: '/admin/users/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
   '/dashboard/merchant': typeof DashboardMerchantIndexRoute
+  '/dashboard/admin/users': typeof DashboardAdminUsersIndexRoute
   '/dashboard/merchant/orders': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -134,6 +142,7 @@ export interface FileRoutesByTo {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin': typeof DashboardAdminIndexRoute
   '/dashboard/merchant': typeof DashboardMerchantIndexRoute
+  '/dashboard/admin/users': typeof DashboardAdminUsersIndexRoute
   '/dashboard/merchant/orders': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRoutesById {
@@ -152,6 +161,7 @@ export interface FileRoutesById {
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
   '/dashboard/admin/': typeof DashboardAdminIndexRoute
   '/dashboard/merchant/': typeof DashboardMerchantIndexRoute
+  '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
   '/dashboard/merchant/orders/': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRouteTypes {
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
     | '/dashboard/merchant'
+    | '/dashboard/admin/users'
     | '/dashboard/merchant/orders'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin'
     | '/dashboard/merchant'
+    | '/dashboard/admin/users'
     | '/dashboard/merchant/orders'
   id:
     | '__root__'
@@ -204,6 +216,7 @@ export interface FileRouteTypes {
     | '/dashboard/merchant/katalog'
     | '/dashboard/admin/'
     | '/dashboard/merchant/'
+    | '/dashboard/admin/users/'
     | '/dashboard/merchant/orders/'
   fileRoutesById: FileRoutesById
 }
@@ -327,6 +340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardMerchantOrdersIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/admin/users/': {
+      id: '/dashboard/admin/users/'
+      path: '/admin/users'
+      fullPath: '/dashboard/admin/users'
+      preLoaderRoute: typeof DashboardAdminUsersIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
@@ -335,6 +355,7 @@ interface DashboardRouteRouteChildren {
   DashboardMerchantKatalogRoute: typeof DashboardMerchantKatalogRoute
   DashboardAdminIndexRoute: typeof DashboardAdminIndexRoute
   DashboardMerchantIndexRoute: typeof DashboardMerchantIndexRoute
+  DashboardAdminUsersIndexRoute: typeof DashboardAdminUsersIndexRoute
   DashboardMerchantOrdersIndexRoute: typeof DashboardMerchantOrdersIndexRoute
 }
 
@@ -343,6 +364,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardMerchantKatalogRoute: DashboardMerchantKatalogRoute,
   DashboardAdminIndexRoute: DashboardAdminIndexRoute,
   DashboardMerchantIndexRoute: DashboardMerchantIndexRoute,
+  DashboardAdminUsersIndexRoute: DashboardAdminUsersIndexRoute,
   DashboardMerchantOrdersIndexRoute: DashboardMerchantOrdersIndexRoute,
 }
 
