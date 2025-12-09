@@ -200,6 +200,7 @@ export const userRelations2 = relations(user, ({ one, many }) => ({
     references: [userAdditionalInfo.userId],
   }),
   products: many(product),
+  feeds: many(feed),
 }));
 
 export const userAdditionalInfoRelations = relations(
@@ -216,5 +217,28 @@ export const productRelations = relations(product, ({ one }) => ({
   owner: one(user, {
     fields: [product.userId],
     references: [user.id],
+  }),
+  feed: one(productOnFeed, {
+    fields: [product.id],
+    references: [productOnFeed.productId],
+  }),
+}));
+
+export const feedRelations = relations(feed, ({ one, many }) => ({
+  author: one(user, {
+    fields: [feed.userId],
+    references: [user.id],
+  }),
+  products: many(productOnFeed),
+}));
+
+export const productOnFeedRelations = relations(productOnFeed, ({ one }) => ({
+  product: one(product, {
+    fields: [productOnFeed.productId],
+    references: [product.id],
+  }),
+  feed: one(feed, {
+    fields: [productOnFeed.feedId],
+    references: [feed.id],
   }),
 }));
