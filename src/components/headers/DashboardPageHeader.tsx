@@ -32,7 +32,7 @@ const DashboardPageHeader = ({ session }: Props) => {
         {isAdmin && (
           <>
             <Button asChild>
-              <Link to="/dashboard/admin/users">Katalog</Link>
+              <Link to="/dashboard/admin/users">Manage User</Link>
             </Button>
           </>
         )}
