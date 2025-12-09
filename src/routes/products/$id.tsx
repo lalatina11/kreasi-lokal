@@ -99,7 +99,7 @@ function RouteComponent() {
                 <span className="text-sm">{product.owner.name}</span>
               </div>
             </HoverCardTrigger>
-            <HoverCardContent>
+            <HoverCardContent className="w-max">
               <div className="flex flex-col gap-2">
                 <div className="flex w-fit gap-2 items-center">
                   <Avatar>
