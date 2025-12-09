@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Link } from "@tanstack/react-router";
+import { switchCurrencyToIDR } from "@/lib/utils";
 
 interface Props {
   products: Awaited<ReturnType<typeof getAllProducts>>;
@@ -31,8 +32,9 @@ const ProductCard = ({ products }: Props) => {
       <CardHeader className="w-full self-start flex">
         <Link to={`/products` + `/${product.id}`}>
           <CardTitle>{product.name}</CardTitle>
-          <CardDescription className="">
-            {product.shortDescription}
+          <CardDescription className="flex flex-col gap-2">
+            <span>{product.shortDescription}</span>
+            <span>{switchCurrencyToIDR(product.price)}</span>
           </CardDescription>
         </Link>
       </CardHeader>
