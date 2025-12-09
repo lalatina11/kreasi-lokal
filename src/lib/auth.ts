@@ -31,6 +31,11 @@ export const auth = betterAuth({
         unique: true,
         required: true,
       },
+      isBanned: {
+        type: "boolean",
+        required: true,
+        defaultValue: false,
+      },
     },
   },
 });
