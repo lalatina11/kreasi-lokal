@@ -143,3 +143,8 @@ export const addShippingNumberSchema = z.object({
 });
 
 export type AddShippingNumberSchema = z.infer<typeof addShippingNumberSchema>;
+
+export const bannedUserSchema = z.object({
+  userId: z.string().min(3),
+});
+export type BannedUserSchema = z.infer<typeof bannedUserSchema>;
