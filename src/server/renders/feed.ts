@@ -1,7 +1,7 @@
 import db from "@/db";
 import { tables } from "@/db/tables";
 import { createServerFn } from "@tanstack/react-start";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, ne } from "drizzle-orm";
 
 export const getAllFeeds = createServerFn({ method: "GET" }).handler(
   async () => {
@@ -32,6 +32,7 @@ export const getAllFeeds = createServerFn({ method: "GET" }).handler(
         eq(tables.product.id, tables.productOnFeed.productId)
       )
       .leftJoin(tables.user, eq(tables.user.id, tables.feed.userId))
-      .orderBy(desc(tables.feed.createdAt));
+      .orderBy(desc(tables.feed.createdAt))
+      .where(ne(tables.user.isBanned, true));
   }
 );
