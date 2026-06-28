@@ -117,16 +117,16 @@ export interface FileRoutesByFullPath {
   '/feeds': typeof FeedsRoute
   '/setting': typeof SettingRoute
   '/products/$id': typeof ProductsIdRoute
-  '/carts': typeof CartsIndexRoute
+  '/carts/': typeof CartsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/orders': typeof OrdersIndexRoute
-  '/products': typeof ProductsIndexRoute
+  '/orders/': typeof OrdersIndexRoute
+  '/products/': typeof ProductsIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/dashboard/merchant/katalog': typeof DashboardMerchantKatalogRoute
-  '/dashboard/admin': typeof DashboardAdminIndexRoute
-  '/dashboard/merchant': typeof DashboardMerchantIndexRoute
-  '/dashboard/admin/users': typeof DashboardAdminUsersIndexRoute
-  '/dashboard/merchant/orders': typeof DashboardMerchantOrdersIndexRoute
+  '/dashboard/admin/': typeof DashboardAdminIndexRoute
+  '/dashboard/merchant/': typeof DashboardMerchantIndexRoute
+  '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
+  '/dashboard/merchant/orders/': typeof DashboardMerchantOrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -173,16 +173,16 @@ export interface FileRouteTypes {
     | '/feeds'
     | '/setting'
     | '/products/$id'
-    | '/carts'
+    | '/carts/'
     | '/dashboard/'
-    | '/orders'
-    | '/products'
+    | '/orders/'
+    | '/products/'
     | '/api/auth/$'
     | '/dashboard/merchant/katalog'
-    | '/dashboard/admin'
-    | '/dashboard/merchant'
-    | '/dashboard/admin/users'
-    | '/dashboard/merchant/orders'
+    | '/dashboard/admin/'
+    | '/dashboard/merchant/'
+    | '/dashboard/admin/users/'
+    | '/dashboard/merchant/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -273,14 +273,14 @@ declare module '@tanstack/react-router' {
     '/products/': {
       id: '/products/'
       path: '/products'
-      fullPath: '/products'
+      fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/orders/': {
       id: '/orders/'
       path: '/orders'
-      fullPath: '/orders'
+      fullPath: '/orders/'
       preLoaderRoute: typeof OrdersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -294,7 +294,7 @@ declare module '@tanstack/react-router' {
     '/carts/': {
       id: '/carts/'
       path: '/carts'
-      fullPath: '/carts'
+      fullPath: '/carts/'
       preLoaderRoute: typeof CartsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -308,14 +308,14 @@ declare module '@tanstack/react-router' {
     '/dashboard/merchant/': {
       id: '/dashboard/merchant/'
       path: '/merchant'
-      fullPath: '/dashboard/merchant'
+      fullPath: '/dashboard/merchant/'
       preLoaderRoute: typeof DashboardMerchantIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/admin/': {
       id: '/dashboard/admin/'
       path: '/admin'
-      fullPath: '/dashboard/admin'
+      fullPath: '/dashboard/admin/'
       preLoaderRoute: typeof DashboardAdminIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
@@ -336,14 +336,14 @@ declare module '@tanstack/react-router' {
     '/dashboard/merchant/orders/': {
       id: '/dashboard/merchant/orders/'
       path: '/merchant/orders'
-      fullPath: '/dashboard/merchant/orders'
+      fullPath: '/dashboard/merchant/orders/'
       preLoaderRoute: typeof DashboardMerchantOrdersIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/admin/users/': {
       id: '/dashboard/admin/users/'
       path: '/admin/users'
-      fullPath: '/dashboard/admin/users'
+      fullPath: '/dashboard/admin/users/'
       preLoaderRoute: typeof DashboardAdminUsersIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }

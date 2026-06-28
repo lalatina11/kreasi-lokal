@@ -4,12 +4,11 @@ import {
 } from "@/lib/utils";
 import { Product } from "@/types/db/products";
 import { faker } from "@faker-js/faker";
-import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import db from "..";
 import { tables } from "../tables";
 
-const productSeeder = createServerFn().handler(async () => {
+const productSeeder = async () => {
   console.log("Mencari pemilik usaha...");
 
   const [merchant] = await db
@@ -18,7 +17,7 @@ const productSeeder = createServerFn().handler(async () => {
     .where(eq(tables.user.role, "merchant"));
   if (!merchant) {
     throw new Error(
-      "Tidak ada pemilik usaha, seed table pengguna terlebih dahulu!"
+      "Tidak ada pemilik usaha, seed table pengguna terlebih dahulu!",
     );
   }
   console.log("Pemilik usaha ditemukan!\nMencari Kategori...");
@@ -42,11 +41,11 @@ const productSeeder = createServerFn().handler(async () => {
         shortDescription: `${name}`,
         price: faker.number.int({ min: 5000, max: 1000000 }),
         type,
-      })
+      }),
     );
     console.log(`berhasil membuat product: ${name}!`);
   }
   console.log(`berhasil membuat ${categories.length} products!`);
-});
+};
 
 export default productSeeder;
